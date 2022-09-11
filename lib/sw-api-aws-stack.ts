@@ -9,10 +9,14 @@ export class SwApiAwsStack extends cdk.Stack {
     super(scope, id, props);
 
     const charactersTable = new dynamo.Table(this, 'Characters', {
-      partitionKey: {name: 'name', type: dynamo.AttributeType.STRING},
+      partitionKey: {name: 'id', type: dynamo.AttributeType.STRING},
       readCapacity: 1,
       writeCapacity: 1
     });
+    charactersTable.addGlobalSecondaryIndex({
+      indexName: "NameIndex",
+      partitionKey: {name: 'name', type: dynamo.AttributeType.STRING}
+    })
 
     const restApi = new apigw.RestApi(this, 'StarWarsApi', {
       restApiName: 'StarWarsApi'
