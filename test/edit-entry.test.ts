@@ -8,7 +8,7 @@ describe('Testing entry edit', () =>{
     const OLD_ENV = process.env;
     const ddbMock = mockClient(DynamoDBDocumentClient);
     const oldName = "Obi Wan Kenobi";
-    const name = "Obi Wan Kenobi II";
+    const characterName = "Obi Wan Kenobi II";
     const episodes = ["NEWHOPE"];
     const tableName = 'Characters';
     const id = 'test-id';
@@ -32,26 +32,26 @@ describe('Testing entry edit', () =>{
 
     test('should edit properties of existing entry', async () =>{
         ddbMock.on(GetCommand).resolvesOnce({
-            Item: {id, name: oldName, episodes}
-        }).resolvesOnce({Item: {id, name, episodes}});
+            Item: {id, characterName: oldName, episodes}
+        }).resolvesOnce({Item: {id, characterName, episodes}});
         const result = await handler({
             pathParameters: {id},
-            body: JSON.stringify({name})
+            body: JSON.stringify({characterName})
         } as unknown as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(200);
         expect(ddbMock).toHaveReceivedCommandWith(UpdateCommand, {
             TableName: tableName,
             Key: {id}, 
-            UpdateExpression: "SET name = :name",
-            ExpressionAttributeValues: {":name": name}});
-        expect(result.body).toStrictEqual(JSON.stringify({id, name, episodes}))
+            UpdateExpression: "SET characterName = :name",
+            ExpressionAttributeValues: {":name": characterName}});
+        expect(result.body).toStrictEqual(JSON.stringify({id, characterName, episodes}))
     });
 
     test('should response with 400 not found character', async () =>{
         ddbMock.on(GetCommand).resolves({});
         const result = await  handler({
             pathParameters: {"id":'random-id'},
-            body: JSON.stringify({name})
+            body: JSON.stringify({characterName})
         } as unknown as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(400);
         expect(ddbMock).not.toHaveReceivedCommand(UpdateCommand);
@@ -59,7 +59,7 @@ describe('Testing entry edit', () =>{
 
     test('should do nothing with unknown properties', async () =>{
         ddbMock.on(GetCommand).resolves({
-            Item: {id, name: oldName, episodes}
+            Item: {id, characterName: oldName, episodes}
         });
         const result = await handler({
             pathParameters: {id},
@@ -67,7 +67,7 @@ describe('Testing entry edit', () =>{
         } as unknown as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(200);
         expect(ddbMock).not.toHaveReceivedCommand(UpdateCommand);
-        expect(result.body).toStrictEqual(JSON.stringify({id, name: oldName, episodes}))
+        expect(result.body).toStrictEqual(JSON.stringify({id, characterName: oldName, episodes}))
     });
 })
 

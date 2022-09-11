@@ -11,7 +11,7 @@ describe('Testing entry creation', () =>{
     const OLD_ENV = process.env;
     const ddbMock = mockClient(DynamoDBDocumentClient);
     ddbMock.on(PutCommand).resolves({});
-    const name = "Obi Wan Kenobi";
+    const characterName = "Obi Wan Kenobi";
     const episodes = ["NEWHOPE"];
     const tableName = 'Characters'
     const id = 'test-id';
@@ -35,14 +35,14 @@ describe('Testing entry creation', () =>{
     test('should create new entry', async () =>{
         jest.spyOn(uuid, 'v4').mockReturnValue(id);
         ddbMock.on(GetCommand).resolves({
-            Item: {id, name, episodes}
+            Item: {id, characterName, episodes}
         });
         const result = await handler({
-            body: JSON.stringify({name, episodes})
+            body: JSON.stringify({characterName, episodes})
         } as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(200);
-        expect(ddbMock).toHaveReceivedCommandWith(PutCommand, {TableName: tableName, Item: {id, name, episodes}});
-        expect(result.body).toStrictEqual(JSON.stringify({id, name, episodes}))
+        expect(ddbMock).toHaveReceivedCommandWith(PutCommand, {TableName: tableName, Item: {id, characterName, episodes}});
+        expect(result.body).toStrictEqual(JSON.stringify({id, characterName, episodes}))
     });
 
     test('should response with 400 on no name', async () =>{
@@ -55,7 +55,7 @@ describe('Testing entry creation', () =>{
 
     test('should response with 400 on inproper episodes list', async () =>{
         const result = await handler({
-            body: JSON.stringify({name, episodes: 'HOPE'})
+            body: JSON.stringify({characterName, episodes: 'HOPE'})
         } as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(400);
         expect(ddbMock).not.toHaveReceivedCommand(PutCommand);
@@ -63,11 +63,11 @@ describe('Testing entry creation', () =>{
 
     test('should response with 400 if character already exists', async () =>{
         ddbMock.on(QueryCommand).resolves({
-            Items: [{name, episodes}],
+            Items: [{characterName, episodes}],
             Count: 1
         });
         const result = await handler({
-            body: JSON.stringify({name, episodes})
+            body: JSON.stringify({characterName, episodes})
         } as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(400);
         expect(ddbMock).not.toHaveReceivedCommand(PutCommand);
@@ -77,14 +77,14 @@ describe('Testing entry creation', () =>{
         const planet = "Stewjon";
         jest.spyOn(uuid, 'v4').mockReturnValue(id);
         ddbMock.on(GetCommand).resolves({
-            Item: {id, name, episodes, planet}
+            Item: {id, characterName, episodes, planet}
         });
         const result = await handler({
-            body: JSON.stringify({name, episodes, planet})
+            body: JSON.stringify({characterName, episodes, planet})
         } as APIGatewayProxyEvent, {} as Context);
         expect(result.statusCode).toStrictEqual(200);
-        expect(ddbMock).toHaveReceivedCommandWith(PutCommand, {TableName: tableName, Item: {id: id, name, episodes, planet}});
-        expect(result.body).toStrictEqual(JSON.stringify({id, name, episodes, planet}))
+        expect(ddbMock).toHaveReceivedCommandWith(PutCommand, {TableName: tableName, Item: {id: id, characterName, episodes, planet}});
+        expect(result.body).toStrictEqual(JSON.stringify({id, characterName, episodes, planet}))
     });
 
 })

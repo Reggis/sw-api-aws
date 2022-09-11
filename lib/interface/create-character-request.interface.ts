@@ -7,13 +7,13 @@ export interface IParsingResult<T> {
     result?: T
 }
 export interface ICreateCharacterRequest {
-    name: string;
+    characterName: string;
     episodes: string[];
     planet?: string;
 }
 
 export interface IEditCharacterRequest {
-    name?: string;
+    characterName?: string;
     episodes?: string[];
     planet?: string;
 }

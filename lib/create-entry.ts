@@ -1,6 +1,4 @@
 import { Context, APIGatewayProxyResult, APIGatewayEvent } from 'aws-lambda';
-import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { DynamoDBDocumentClient, PutCommand } from "@aws-sdk/lib-dynamodb"; 
 import { ICharacter } from './interface/character.interface';
 import { parseCreateCharacterInput } from './common/parsers';
 import * as uuid from 'uuid';
@@ -25,7 +23,7 @@ export const handler = async (event: APIGatewayEvent, context: Context): Promise
     const id =  uuid.v4()
     const newCharacter: Partial<ICharacter> = {
         'id': id,
-        'name': eventBody.name,
+        'characterName': eventBody.characterName,
         'episodes': eventBody.episodes
     }
 

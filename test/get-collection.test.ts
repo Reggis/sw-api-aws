@@ -16,22 +16,22 @@ describe('Testing entry get', () =>{
         [
             {
                 "id": "1",
-                "name": "Luke Skywalker",
+                "characterName": "Luke Skywalker",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
             },
             {
                 "id": "2",
-                "name": "Darth Vader",
+                "characterName": "Darth Vader",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
             },
             {
                 "id": "3",
-                "name": "Han Solo",
+                "characterName": "Han Solo",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
             },
             {
                 "id": "4",
-                "name": "Leia Organa",
+                "characterName": "Leia Organa",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"],
                 "planet": "Alderaan"
             }
@@ -39,17 +39,17 @@ describe('Testing entry get', () =>{
         [
             {
                 "id": "5",
-                "name": "Wilhuff Tarkin",
+                "characterName": "Wilhuff Tarkin",
                 "episodes": ["NEWHOPE"]
             },
             {
                 "id": "6",
-                "name": "C-3PO",
+                "characterName": "C-3PO",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
             },
             {
                 "id": "7",
-                "name": "R2-D2",
+                "characterName": "R2-D2",
                 "episodes": ["NEWHOPE", "EMPIRE", "JEDI"]
             }
         ]

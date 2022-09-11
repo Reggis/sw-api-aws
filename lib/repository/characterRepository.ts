@@ -18,8 +18,8 @@ export class CharacterRepository {
         return await this.ddb.send(new QueryCommand({
             TableName: this.tableName,
             IndexName: 'NameIndex',
-            KeyConditionExpression: 'name = :charName',
-            ExpressionAttributeValues: { ':charName': eventBody.name }
+            KeyConditionExpression: 'characterName = :charName',
+            ExpressionAttributeValues: { ':charName': eventBody.characterName }
         }));
     }
 
@@ -46,9 +46,9 @@ export class CharacterRepository {
             updateExpression += "SET episodes = :episodes, ";
             expressionAttributeValues[':episodes'] = eventBody.episodes;
         }
-        if(eventBody.name){
-            updateExpression += "SET name = :name, ";
-            expressionAttributeValues[':name'] = eventBody.name;
+        if(eventBody.characterName){
+            updateExpression += "SET characterName = :name, ";
+            expressionAttributeValues[':name'] = eventBody.characterName;
         }
         if(eventBody.planet){
             updateExpression += "SET planet = :planet, ";

@@ -55,7 +55,7 @@ export const parseCreateCharacterInput = (event: APIGatewayEvent): IParsingResul
         return eventBodyParsingResult;
     }
     const eventBody = eventBodyParsingResult.result!;
-    if (!eventBody.name) {
+    if (!eventBody.characterName) {
         return {
             success: false,
             error: {
