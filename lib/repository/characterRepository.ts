@@ -1,4 +1,4 @@
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand, GetCommandOutput, PutCommand, QueryCommand, QueryCommandOutput, UpdateCommand, ScanCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, GetCommandOutput, PutCommand, QueryCommand, UpdateCommand, ScanCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { ICreateCharacterRequest, IEditCharacterRequest } from '../interface/create-character-request.interface';
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { ICharacter } from "../interface/character.interface";
