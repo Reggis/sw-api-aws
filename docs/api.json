@@ -1,0 +1,229 @@
+{
+  "swagger" : "2.0",
+  "info" : {
+    "version" : "2022-09-12T09:00:40Z",
+    "title" : "StarWarsApi"
+  },
+  "host" : "f4qeoq6dxi.execute-api.eu-west-1.amazonaws.com",
+  "basePath" : "/prod",
+  "schemes" : [ "https" ],
+  "paths" : {
+    "/character" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "lastEvaluatedKey",
+          "in" : "query",
+          "required" : false,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/CharacterListResponseModel"
+            }
+          }
+        }
+      },
+      "put" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "in" : "body",
+          "name" : "CharacterCreateModel",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CharacterCreateModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/CharacterResponseModel"
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/BareStringResponseModel"
+            }
+          }
+        }
+      }
+    },
+    "/character/{id}" : {
+      "get" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/CharacterResponseModel"
+            }
+          },
+          "404" : {
+            "description" : "404 response",
+            "schema" : {
+              "$ref" : "#/definitions/BareStringResponseModel"
+            }
+          }
+        }
+      },
+      "delete" : {
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/BareStringResponseModel"
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/BareStringResponseModel"
+            }
+          }
+        }
+      },
+      "patch" : {
+        "consumes" : [ "application/json" ],
+        "produces" : [ "application/json" ],
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "type" : "string"
+        }, {
+          "in" : "body",
+          "name" : "CharacterUpdateModel",
+          "required" : true,
+          "schema" : {
+            "$ref" : "#/definitions/CharacterUpdateModel"
+          }
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "200 response",
+            "schema" : {
+              "$ref" : "#/definitions/CharacterResponseModel"
+            }
+          },
+          "400" : {
+            "description" : "400 response",
+            "schema" : {
+              "$ref" : "#/definitions/BareStringResponseModel"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions" : {
+    "CharacterUpdateModel" : {
+      "type" : "object",
+      "properties" : {
+        "planet" : {
+          "type" : "string"
+        },
+        "characterName" : {
+          "type" : "string"
+        },
+        "episodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "BareStringResponseModel" : {
+      "type" : "string"
+    },
+    "CharacterResponseModel" : {
+      "type" : "object",
+      "properties" : {
+        "planet" : {
+          "type" : "string"
+        },
+        "characterName" : {
+          "type" : "string"
+        },
+        "id" : {
+          "type" : "string"
+        },
+        "episodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    },
+    "CharacterListResponseModel" : {
+      "type" : "object",
+      "properties" : {
+        "characters" : {
+          "type" : "object",
+          "properties" : {
+            "planet" : {
+              "type" : "string"
+            },
+            "characterName" : {
+              "type" : "string"
+            },
+            "id" : {
+              "type" : "string"
+            },
+            "episodes" : {
+              "type" : "array",
+              "items" : {
+                "type" : "string"
+              }
+            }
+          }
+        },
+        "lastEvaluatedKey" : {
+          "type" : "object",
+          "properties" : {
+            "id" : {
+              "type" : "string"
+            }
+          }
+        }
+      }
+    },
+    "CharacterCreateModel" : {
+      "type" : "object",
+      "required" : [ "characterName", "episodes" ],
+      "properties" : {
+        "planet" : {
+          "type" : "string"
+        },
+        "characterName" : {
+          "type" : "string"
+        },
+        "episodes" : {
+          "type" : "array",
+          "items" : {
+            "type" : "string"
+          }
+        }
+      }
+    }
+  }
+}

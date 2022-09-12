@@ -1,4 +1,4 @@
-import { DeleteCommand, DynamoDBDocumentClient, GetCommand, GetCommandOutput, PutCommand, QueryCommand, QueryCommandOutput, UpdateCommand } from "@aws-sdk/lib-dynamodb";
+import { DeleteCommand, DynamoDBDocumentClient, GetCommand, GetCommandOutput, PutCommand, QueryCommand, QueryCommandOutput, UpdateCommand, ScanCommand, ScanCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { ICreateCharacterRequest, IEditCharacterRequest } from '../interface/create-character-request.interface';
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { ICharacter } from "../interface/character.interface";
@@ -77,8 +77,8 @@ export class CharacterRepository {
         );
     }
 
-    public async getCharactersColletion(lastEvaluatedKey: string | undefined): Promise<QueryCommandOutput> {
-        const queryCommand = new QueryCommand({TableName: this.tableName, Limit: 4});
+    public async getCharactersColletion(lastEvaluatedKey: string | undefined): Promise<ScanCommandOutput> {
+        const queryCommand = new ScanCommand({TableName: this.tableName, Limit: 4});
         if(lastEvaluatedKey){
             queryCommand.input.ExclusiveStartKey = {'id': lastEvaluatedKey}
         }
