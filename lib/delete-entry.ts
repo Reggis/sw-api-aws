@@ -4,7 +4,7 @@ import { CharacterRepository } from './repository/characterRepository';
 
 export const handler = async (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> => {
     const parseResult = validateIdInPath(event);
-    if(!parseResult.success){
+    if (!parseResult.success) {
         return parseResult.error!;
     }
     const id = event!.pathParameters!['id'];
@@ -12,7 +12,7 @@ export const handler = async (event: APIGatewayEvent, context: Context): Promise
     const characterRepository = new CharacterRepository();
 
     const currentCharacter = await characterRepository.getCharacterById(id!);
-    if(!currentCharacter?.Item){
+    if (!currentCharacter?.Item) {
         return {
             statusCode: 400,
             body: JSON.stringify('Bad request - character not exists')

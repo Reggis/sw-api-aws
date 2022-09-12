@@ -2,7 +2,7 @@ import { APIGatewayEvent } from 'aws-lambda';
 import { ICreateCharacterRequest, IEditCharacterRequest, IParsingResult } from '../interface/create-character-request.interface';
 
 export const validateIdInPath = (event: APIGatewayEvent): IParsingResult<null> => {
-    if(!event?.pathParameters || !event?.pathParameters['id']){
+    if (!event?.pathParameters || !event?.pathParameters['id']) {
         return {
             success: false,
             error: {
@@ -11,13 +11,13 @@ export const validateIdInPath = (event: APIGatewayEvent): IParsingResult<null> =
             }
         }
     }
-    return {success:true}
+    return { success: true }
 };
 
 export const parseEditCharacterInput = (event: APIGatewayEvent): IParsingResult<IEditCharacterRequest> => {
     const idInPath = validateIdInPath(event);
-    if(!idInPath.success){
-        return {success: false, error: idInPath.error};
+    if (!idInPath.success) {
+        return { success: false, error: idInPath.error };
     }
     const eventBodyParsingResult = validateEventBody<IEditCharacterRequest>(event);
     return eventBodyParsingResult;
@@ -46,12 +46,12 @@ const validateEventBody = <T>(event: APIGatewayEvent): IParsingResult<T> => {
             }
         };
     }
-    return {success:true, result: eventBody}
+    return { success: true, result: eventBody }
 }
 
 export const parseCreateCharacterInput = (event: APIGatewayEvent): IParsingResult<ICreateCharacterRequest> => {
     const eventBodyParsingResult = validateEventBody<ICreateCharacterRequest>(event);
-    if(!eventBodyParsingResult.success){
+    if (!eventBodyParsingResult.success) {
         return eventBodyParsingResult;
     }
     const eventBody = eventBodyParsingResult.result!;

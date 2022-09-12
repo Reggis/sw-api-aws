@@ -35,32 +35,32 @@ export class CharacterRepository {
     public async getCharacterById(id: string): Promise<GetCommandOutput> {
         return await this.ddb.send(new GetCommand({
             TableName: this.tableName,
-            Key: {id},
+            Key: { id },
         }));
     }
 
-    public async updateCharacter(eventBody: IEditCharacterRequest, id:string): Promise<void> {
+    public async updateCharacter(eventBody: IEditCharacterRequest, id: string): Promise<void> {
         let updateExpression = '';
         const expressionAttributeValues: any = {};
-        if(eventBody.episodes){
+        if (eventBody.episodes) {
             updateExpression += "SET episodes = :episodes, ";
             expressionAttributeValues[':episodes'] = eventBody.episodes;
         }
-        if(eventBody.characterName){
+        if (eventBody.characterName) {
             updateExpression += "SET characterName = :name, ";
             expressionAttributeValues[':name'] = eventBody.characterName;
         }
-        if(eventBody.planet){
+        if (eventBody.planet) {
             updateExpression += "SET planet = :planet, ";
             expressionAttributeValues[':planet'] = eventBody.planet;
         }
 
-        if(updateExpression != ''){
-            updateExpression = updateExpression.slice(0,-2);
+        if (updateExpression != '') {
+            updateExpression = updateExpression.slice(0, -2);
             await this.ddb.send(
                 new UpdateCommand({
                     TableName: this.tableName,
-                    Key: {id},
+                    Key: { id },
                     UpdateExpression: updateExpression,
                     ExpressionAttributeValues: expressionAttributeValues
                 })
@@ -72,15 +72,15 @@ export class CharacterRepository {
         await this.ddb.send(
             new DeleteCommand({
                 TableName: this.tableName,
-                Key: {id}
+                Key: { id }
             })
         );
     }
 
     public async getCharactersColletion(lastEvaluatedKey: string | undefined): Promise<ScanCommandOutput> {
-        const queryCommand = new ScanCommand({TableName: this.tableName, Limit: 4});
-        if(lastEvaluatedKey){
-            queryCommand.input.ExclusiveStartKey = {'id': lastEvaluatedKey}
+        const queryCommand = new ScanCommand({ TableName: this.tableName, Limit: 4 });
+        if (lastEvaluatedKey) {
+            queryCommand.input.ExclusiveStartKey = { 'id': lastEvaluatedKey }
         }
         return await this.ddb.send(queryCommand)
     }

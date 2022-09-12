@@ -6,28 +6,28 @@ import { CharacterRepository } from './repository/characterRepository';
 
 export const handler = async (event: APIGatewayEvent, context: Context): Promise<APIGatewayProxyResult> => {
     const parseResult = parseCreateCharacterInput(event);
-    if(!parseResult.success){
+    if (!parseResult.success) {
         return parseResult.error!;
     }
     const eventBody = parseResult.result!;
     const characterRepository = new CharacterRepository();
 
     const currentCharacters = await characterRepository.getCharacterByName(eventBody);
-    if(currentCharacters?.Count){
+    if (currentCharacters?.Count) {
         return {
             statusCode: 400,
             body: JSON.stringify('Bad request - character already exists')
         }
     }
 
-    const id =  uuid.v4()
+    const id = uuid.v4()
     const newCharacter: Partial<ICharacter> = {
         'id': id,
         'characterName': eventBody.characterName,
         'episodes': eventBody.episodes
     }
 
-    if(eventBody.planet){
+    if (eventBody.planet) {
         newCharacter.planet = eventBody.planet;
     }
 

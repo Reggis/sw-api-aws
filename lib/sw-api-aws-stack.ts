@@ -7,10 +7,10 @@ import { Table } from 'aws-cdk-lib/aws-dynamodb';
 import { Model } from 'aws-cdk-lib/aws-apigateway';
 
 export class SwApiAwsStack extends cdk.Stack {
-  private defaultLambdaEnv: {[key: string]: string} = {};
+  private defaultLambdaEnv: { [key: string]: string } = {};
   private charactersTable: Table;
   private restApi: apigw.RestApi;
-  private apiModels: {[key: string]: Model};
+  private apiModels: { [key: string]: Model };
 
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
@@ -40,10 +40,10 @@ export class SwApiAwsStack extends cdk.Stack {
         schema: apigw.JsonSchemaVersion.DRAFT4,
         type: apigw.JsonSchemaType.OBJECT,
         properties: {
-          id: { type: apigw.JsonSchemaType.STRING},
-          characterName: { type: apigw.JsonSchemaType.STRING},
-          episodes: { type: apigw.JsonSchemaType.ARRAY, items: {type:  apigw.JsonSchemaType.STRING}},
-          planet: { type: apigw.JsonSchemaType.STRING}
+          id: { type: apigw.JsonSchemaType.STRING },
+          characterName: { type: apigw.JsonSchemaType.STRING },
+          episodes: { type: apigw.JsonSchemaType.ARRAY, items: { type: apigw.JsonSchemaType.STRING } },
+          planet: { type: apigw.JsonSchemaType.STRING }
         },
       }
     });
@@ -55,15 +55,19 @@ export class SwApiAwsStack extends cdk.Stack {
         schema: apigw.JsonSchemaVersion.DRAFT4,
         type: apigw.JsonSchemaType.OBJECT,
         properties: {
-          characters: {type: apigw.JsonSchemaType.OBJECT, properties: {
-            id: { type: apigw.JsonSchemaType.STRING},
-            characterName: { type: apigw.JsonSchemaType.STRING},
-            episodes: { type: apigw.JsonSchemaType.ARRAY, items: {type:  apigw.JsonSchemaType.STRING}},
-            planet: { type: apigw.JsonSchemaType.STRING}
-          }},
-          lastEvaluatedKey: {type: apigw.JsonSchemaType.OBJECT, properties: {
-            id: {type: apigw.JsonSchemaType.STRING}
-          }}
+          characters: {
+            type: apigw.JsonSchemaType.OBJECT, properties: {
+              id: { type: apigw.JsonSchemaType.STRING },
+              characterName: { type: apigw.JsonSchemaType.STRING },
+              episodes: { type: apigw.JsonSchemaType.ARRAY, items: { type: apigw.JsonSchemaType.STRING } },
+              planet: { type: apigw.JsonSchemaType.STRING }
+            }
+          },
+          lastEvaluatedKey: {
+            type: apigw.JsonSchemaType.OBJECT, properties: {
+              id: { type: apigw.JsonSchemaType.STRING }
+            }
+          }
 
         },
       }
@@ -76,9 +80,9 @@ export class SwApiAwsStack extends cdk.Stack {
         schema: apigw.JsonSchemaVersion.DRAFT4,
         type: apigw.JsonSchemaType.OBJECT,
         properties: {
-          characterName: { type: apigw.JsonSchemaType.STRING},
-          episodes: { type: apigw.JsonSchemaType.ARRAY, items: {type:  apigw.JsonSchemaType.STRING}},
-          planet: { type: apigw.JsonSchemaType.STRING}
+          characterName: { type: apigw.JsonSchemaType.STRING },
+          episodes: { type: apigw.JsonSchemaType.ARRAY, items: { type: apigw.JsonSchemaType.STRING } },
+          planet: { type: apigw.JsonSchemaType.STRING }
         },
       }
     });
@@ -90,9 +94,9 @@ export class SwApiAwsStack extends cdk.Stack {
         schema: apigw.JsonSchemaVersion.DRAFT4,
         type: apigw.JsonSchemaType.OBJECT,
         properties: {
-          characterName: { type: apigw.JsonSchemaType.STRING},
-          episodes: { type: apigw.JsonSchemaType.ARRAY, items: {type:  apigw.JsonSchemaType.STRING}},
-          planet: { type: apigw.JsonSchemaType.STRING}
+          characterName: { type: apigw.JsonSchemaType.STRING },
+          episodes: { type: apigw.JsonSchemaType.ARRAY, items: { type: apigw.JsonSchemaType.STRING } },
+          planet: { type: apigw.JsonSchemaType.STRING }
         },
         required: ["id", "characterName", "episodes"]
       }
@@ -149,7 +153,7 @@ export class SwApiAwsStack extends cdk.Stack {
       requestParameters: {
         'method.request.path.id': true
       },
-      requestModels:{
+      requestModels: {
         'application/json': this.apiModels['CharacterUpdateModel']
       },
       methodResponses: [
@@ -224,7 +228,7 @@ export class SwApiAwsStack extends cdk.Stack {
     });
     this.charactersTable.grantReadWriteData(createEntryFunc);
     charactersApiRoot.addMethod('PUT', new apigw.LambdaIntegration(createEntryFunc), {
-      requestModels:{
+      requestModels: {
         'application/json': this.apiModels['CharacterCreateModel']
       },
       methodResponses: [
